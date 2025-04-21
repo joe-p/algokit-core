@@ -1,0 +1,6 @@
+{
+  "description": "This package.json and the corresponding bun.lock is needed to install plugins for semantic-release",
+  "dependencies": {
+    "semantic-release-scope-filter": "1.0.0"
+  }
+}
