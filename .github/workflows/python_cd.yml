@@ -23,7 +23,9 @@ jobs:
       tag: ${{ steps.semantic_release.outputs.tag }}
       version: ${{ steps.semantic_release.outputs.version }}
       ref: ${{ steps.get_ref.outputs.ref }}
-    working-directory: ./packages/python/${{ env.CRATE }}/
+    defaults:
+      run:
+        working-directory: ./packages/python/${{ env.CRATE }}/
     env:
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
