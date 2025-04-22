@@ -24,11 +24,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
       - name: Semantic Release
         id: semantic_release
-        uses: cycjimmy/semantic-release-action@v4
-        with:
-          working_directory: ./packages/python/${{ env.CRATE }}
+        run: "cd ./packages/python/${{ env.CRATE }} && bun x semantic-release"
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
