@@ -22,7 +22,6 @@ jobs:
     outputs: 
       tag: ${{ steps.semantic_release.outputs.tag }}
       version: ${{ steps.semantic_release.outputs.version }}
-      ref: ${{ steps.get_ref.outputs.ref }}
     defaults:
       run:
         working-directory: ./packages/python/${{ env.CRATE }}/
@@ -46,10 +45,6 @@ jobs:
           git add pyproject.toml
           git commit -m "chore(python/${{ env.CRATE }}): bump version to ${{ steps.semantic_release.outputs.version }}"
           git push
-      - name: Get ref
-        id: get_ref
-        run: echo "ref=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-      - run: echo ${{ steps.get_ref.outputs.ref }}
 
   build_and_test:
     needs: get_version
@@ -72,8 +67,6 @@ jobs:
             runner: macos-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ needs.get_version.outputs.ref }}
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: 1.85.0
@@ -133,8 +126,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ needs.get_version.outputs.ref }}
 
       - name: Set up QEMU
         if: matrix.arch != 'aarch64' && matrix.arch != 'x86_64'
