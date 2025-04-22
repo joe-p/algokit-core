@@ -8,7 +8,12 @@ export default {
     [
       "semantic-release-scope-filter",
       {
-        scopes: ["python", "python/algokit_transact", "algokit_transact"],
+        scopes: [
+          "python",
+          "python/algokit_transact",
+          "algokit_transact",
+          "algokit_transact_ffi",
+        ],
         filterOutMissingScope: false,
       },
     ],
