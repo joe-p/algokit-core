@@ -7,7 +7,7 @@ on:
 
 jobs:
   python_cd:
-    uses: ./.github/workflows/python_cd.yml
+    uses: ./.github/workflows/python_ci_cd.yml
     with:
       crate: algokit_transact
       release: true
