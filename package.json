@@ -1,6 +1,8 @@
 {
   "description": "This package.json and the corresponding bun.lock is needed to install plugins for semantic-release",
   "dependencies": {
+    "@actions/exec": "^1.1.1",
+    "semantic-release-gha-output": "^1.1.1",
     "semantic-release-scope-filter": "1.0.0"
   }
 }
