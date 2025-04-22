@@ -241,6 +241,6 @@ jobs:
         run: |  
           # Hard reset to the original SHA that triggered the workflow
           git reset --hard ${{ github.sha }}
-          git push
+          git push --force
           
 
