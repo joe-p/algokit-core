@@ -27,6 +27,7 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
+      - run: bun install
       - name: Semantic Release
         id: semantic_release
         run: "cd ./packages/python/${{ env.CRATE }} && bun semantic-release"
