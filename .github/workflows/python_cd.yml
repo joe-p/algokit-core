@@ -60,7 +60,7 @@ jobs:
           - name: x86_64-pc-windows-msvc
             runner: windows-latest
           - name: aarch64-pc-windows-msvc
-            runner: windows-latest
+            runner: windows-11-arm
           - name: x86_64-apple-darwin
             runner: macos-13
           - name: aarch64-apple-darwin
@@ -84,9 +84,6 @@ jobs:
           pip install ".[dev]"
 
       - name: pytest
-        # Until GitHub makes windows arm64 runners publicly available, there is not a simple way to test aarch64-pc-windows-msvc
-        # GitHub is currently working on making them available but no ETA: https://github.com/actions/runner-images/issues/10820
-        if: matrix.target.name != 'aarch64-pc-windows-msvc'
         run: |
           cd packages/python/${{ env.CRATE }}
           pytest
@@ -237,7 +234,7 @@ jobs:
 
   cleanup:
     runs-on: ubuntu-latest
-    needs: [get_version, build_and_test, linux_build_and_test]
+    needs: [get_version, build_and_test, linux_build_and_test, release]
     if: failure()
     steps:
       - uses: actions/checkout@v4
