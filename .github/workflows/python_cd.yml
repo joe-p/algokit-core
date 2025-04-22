@@ -22,6 +22,7 @@ jobs:
     outputs: 
       tag: ${{ steps.semantic_release.outputs.tag }}
       version: ${{ steps.semantic_release.outputs.version }}
+      notes: ${{ steps.semantic_release.outputs.notes }}
     defaults:
       run:
         working-directory: ./packages/python/${{ env.CRATE }}/
@@ -220,11 +221,7 @@ jobs:
         with:
           tag_name: ${{ needs.get_version.outputs.tag }}
           name: ${{ needs.get_version.outputs.tag }}
-          body: |
-            Release ${{ needs.get_version.outputs.version }}
-            
-            Changes in this release:
-            - Add your release notes here
+          body: ${{ needs.get_version.outputs.notes }}
           draft: false
           prerelease: false
           files: |

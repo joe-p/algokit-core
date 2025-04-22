@@ -1,5 +1,4 @@
-import { readFileSync, writeFileSync } from "fs";
-import { exec } from "@actions/exec";
+import { setOutput } from "@actions/core";
 
 export default {
   branches: ["main", { name: "alpha", prerelease: true }],
@@ -21,6 +20,10 @@ export default {
     ],
     "semantic-release-gha-output",
     "@semantic-release/release-notes-generator",
-    ["@semantic-release/changelog", { changelogFile: "CHANGELOG.md" }],
+    {
+      generateNotes: async (_cfg, context) => {
+        setOutput("notes", context.nextRelease.notes);
+      },
+    },
   ],
 };
