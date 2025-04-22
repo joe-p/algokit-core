@@ -20,5 +20,7 @@ export default {
       },
     ],
     "semantic-release-gha-output",
+    "@semantic-release/release-notes-generator",
+    ["@semantic-release/changelog", { changelogFile: "CHANGELOG.md" }],
   ],
 };
