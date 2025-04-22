@@ -220,3 +220,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
+  cleanup:
+    runs-on: ubuntu-latest
+    needs: bump_version
+    if: failure()
+    steps:
+      - name: Delete tag
+        run: "git push --delete origin ${{ needs.bump_version.tag }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
