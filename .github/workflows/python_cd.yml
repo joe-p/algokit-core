@@ -48,6 +48,7 @@ jobs:
       - name: Get ref
         id: get_ref
         run: echo "ref=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      - run: echo ${{ steps.get_ref.outputs.ref }}
 
   build_and_test:
     needs: get_version
