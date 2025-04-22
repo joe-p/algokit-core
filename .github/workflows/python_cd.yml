@@ -94,7 +94,7 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: wheels
+          name: ${{ matrix.target.name }}-wheel
           path: target/wheels
 
   linux_build_and_test:
@@ -200,7 +200,7 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: wheels
+          name: ${{ env.TARGET }}-wheel
           path: target/wheels
 
 
@@ -231,7 +231,7 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            artifacts/wheels/**/*
+            artifacts/*-wheel/**/*
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
