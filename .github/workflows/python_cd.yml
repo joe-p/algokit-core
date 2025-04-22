@@ -67,6 +67,8 @@ jobs:
             runner: macos-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: 1.85.0
@@ -126,6 +128,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
 
       - name: Set up QEMU
         if: matrix.arch != 'aarch64' && matrix.arch != 'x86_64'
