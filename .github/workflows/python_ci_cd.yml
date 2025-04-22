@@ -217,10 +217,19 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           path: artifacts
+      
+      - name: Create tag
+        run: |
+          git tag ${{ needs.get_version.outputs.tag }}
+          git push origin ${{ needs.get_version.outputs.tag }}
 
       - name: Create Release
         id: create_release
@@ -247,5 +256,8 @@ jobs:
           # Hard reset to the original SHA that triggered the workflow
           git reset --hard ${{ github.sha }}
           git push --force
+
+      - name: Remove tag
+        run: git push origin --delete ${{ needs.get_version_outputs.tag }}
           
 
