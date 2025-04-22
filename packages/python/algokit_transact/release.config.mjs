@@ -20,27 +20,5 @@ export default {
       },
     ],
     "semantic-release-gha-output",
-    // Plugin for bumping version number
-    {
-      prepare: async (_pluginConfig, context) => {
-        const file = "./pyproject.toml";
-        const { version } = context.nextRelease;
-
-        writeFileSync(
-          file,
-          readFileSync(file, "utf8").replace(
-            /version =.*/,
-            `version = "${version}"`,
-          ),
-        );
-
-        await exec("git", ["add", file]);
-        await exec("git", [
-          "commit",
-          "-m",
-          `chore(python/algokit_transact): bump version to ${version}`,
-        ]);
-      },
-    },
   ],
 };

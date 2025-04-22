@@ -17,7 +17,7 @@ env:
   PYTHON_VERSION: "3.10"
 
 jobs:
-  bump_version:
+  get_version:
     runs-on: ubuntu-latest
     outputs: 
       tag: ${{ steps.semantic_release.outputs.tag }}
@@ -31,12 +31,12 @@ jobs:
       - run: bun install
       - name: Semantic Release
         id: semantic_release
-        run: "cd ./packages/python/${{ env.CRATE }} && bun semantic-release"
+        run: "cd ./packages/python/${{ env.CRATE }} && bun semantic-release --dry-run"
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
   build_and_test:
-    needs: bump_version
+    needs: get_version
     defaults:
       run:
         shell: bash
@@ -85,7 +85,7 @@ jobs:
           path: target/wheels
 
   linux_build_and_test:
-    needs: bump_version
+    needs: get_version
     defaults:
       run:
         shell: bash
@@ -191,7 +191,7 @@ jobs:
 
   release:
     needs:
-      - bump_version
+      - get_version
       - build_and_test
       - linux_build_and_test
 
@@ -206,10 +206,10 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ needs.bump_version.tag }}
-          name: ${{ needs.bump_version.tag }}
+          tag_name: ${{ needs.get_version.tag }}
+          name: ${{ needs.get_version.tag }}
           body: |
-            Release ${{ needs.bump_version.version }}
+            Release ${{ needs.get_version.version }}
             
             Changes in this release:
             - Add your release notes here
@@ -222,11 +222,11 @@ jobs:
 
   cleanup:
     runs-on: ubuntu-latest
-    needs: bump_version
+    needs: [get_version, build_and_test, linux_build_and_test]
     if: failure()
     steps:
       - name: Delete tag
-        run: "git push --delete origin ${{ needs.bump_version.tag }}"
+        run: "git push --delete origin ${{ needs.get_version.tag }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
