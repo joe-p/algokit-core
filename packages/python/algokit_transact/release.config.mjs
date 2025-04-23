@@ -1,5 +1,3 @@
-import { setOutput } from "@actions/core";
-
 export default {
   branches: ["main", { name: "alpha", prerelease: true }],
   repositoryUrl: "https://github.com/joe-p/algokit-core",
@@ -23,18 +21,13 @@ export default {
         preset: "angular",
       },
     ],
-    "semantic-release-gha-output",
     "@semantic-release/release-notes-generator",
-    {
-      generateNotes: async (_cfg, context) => {
-        setOutput("notes", context.nextRelease.notes);
-      },
-    },
     [
       "@semantic-release/github",
       {
         assets: ["../../../artifacts/*-wheel/**/*"],
       },
     ],
+    "semantic-release-gha-output",
   ],
 };

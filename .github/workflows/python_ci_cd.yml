@@ -34,7 +34,6 @@ jobs:
     outputs: 
       tag: ${{ steps.semantic_release.outputs.tag }}
       version: ${{ steps.semantic_release.outputs.version }}
-      notes: ${{ steps.semantic_release.outputs.notes }}
     defaults:
       run:
         working-directory: ./packages/python/${{ inputs.crate }}/
