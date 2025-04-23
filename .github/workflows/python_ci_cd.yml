@@ -62,6 +62,7 @@ jobs:
 
   build_and_test:
     needs: get_version
+    if: ${{ !inputs.release || needs.get_version.outputs.version != '' }}
     defaults:
       run:
         shell: bash
@@ -103,7 +104,7 @@ jobs:
           pytest
 
       - name: Upload build artifacts
-        if: inputs.release && needs.get_version.outputs.version != ''
+        if: inputs.release
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.target.name }}-wheel
@@ -111,6 +112,7 @@ jobs:
 
   linux_build_and_test:
     needs: get_version
+    if: ${{ !inputs.release || needs.get_version.outputs.version != '' }}
     defaults:
       run:
         shell: bash
@@ -204,7 +206,7 @@ jobs:
         run: docker exec build-container bash -c "$RUN"
       
       - name: Upload build artifacts
-        if: inputs.release && needs.get_version.outputs.version != ''
+        if: inputs.release
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.TARGET }}-wheel
