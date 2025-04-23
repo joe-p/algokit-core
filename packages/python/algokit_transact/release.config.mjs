@@ -33,7 +33,7 @@ export default {
     [
       "@semantic-release/github",
       {
-        assets: ["artifacts/*-wheel/**/*"],
+        assets: ["../../../artifacts/*-wheel/**/*"],
       },
     ],
   ],
