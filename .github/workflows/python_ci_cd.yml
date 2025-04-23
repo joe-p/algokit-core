@@ -18,6 +18,6 @@ jobs:
         crate: [algokit_transact]
     with:
       crate: ${{ matrix.crate }}
-      release: ${{ github.event == 'push' }}
+      release: ${{ github.event_name == 'push' }}
     secrets:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
