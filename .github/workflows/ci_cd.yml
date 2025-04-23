@@ -1,4 +1,4 @@
-name: Python CI/CD
+name: CI/CD
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
       - alpha
 
 jobs:
-  uniffi_ci_cd:
+  python_uniffi_ci_cd:
     uses: ./.github/workflows/python_uniffi_ci_cd.yml
     strategy:
       matrix:
