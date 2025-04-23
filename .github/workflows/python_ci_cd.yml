@@ -46,12 +46,14 @@ jobs:
         with:
           bun-version: latest
       - run: cd ../../../ && bun install
-      - name: Semantic Release
+      - name: Semantic Release (dry-run)
         id: semantic_release
         run: "bun semantic-release --dry-run"
       - name: Update version in pyproject.toml
+        if: steps.semantic_release.outputs.version != ''
         run: sed -i 's/version = .*/version = "${{ steps.semantic_release.outputs.version }}"/' pyproject.toml
       - name: Commit version bump
+        if: steps.semantic_release.outputs.version != ''
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -102,7 +104,7 @@ jobs:
           pytest
 
       - name: Upload build artifacts
-        if: inputs.release
+        if: inputs.release && needs.get_version.outputs.version != ''
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.target.name }}-wheel
@@ -203,7 +205,7 @@ jobs:
         run: docker exec build-container bash -c "$RUN"
       
       - name: Upload build artifacts
-        if: inputs.release
+        if: inputs.release && needs.get_version.outputs.version != ''
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.TARGET }}-wheel
@@ -211,7 +213,7 @@ jobs:
 
 
   release:
-    if: inputs.release
+    if: inputs.release && needs.get_version.outputs.version != ''
     needs:
       - get_version
       - build_and_test
@@ -253,9 +255,4 @@ jobs:
         run: |  
           # Hard reset to the original SHA that triggered the workflow
           git reset --hard ${{ github.sha }}
-          git push --force
-
-      - name: Remove tag
-        run: git push origin --delete ${{ needs.get_version_outputs.tag }}
-          
-
+          git push --force 
