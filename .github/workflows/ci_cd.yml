@@ -1,11 +1,11 @@
 name: CI/CD
 
 on:
-  push:
+  push: # A push indicates that a PR is merged and CD should be triggered
     branches:
       - main
       - alpha
-  pull_request:
+  pull_request: # For PRs, we run CI, which is the same as CD without the release step(s)
     branches:
       - main
       - alpha
