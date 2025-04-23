@@ -216,6 +216,11 @@ jobs:
       - linux_build_and_test
 
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/python/${{ inputs.crate }}/
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -225,26 +230,17 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: artifacts
-      
-      - name: Create tag
-        run: |
-          git tag ${{ needs.get_version.outputs.tag }}
-          git push origin ${{ needs.get_version.outputs.tag }}
 
-      - name: Create Release
-        id: create_release
-        uses: softprops/action-gh-release@v1
+      - uses: oven-sh/setup-bun@v2
         with:
-          tag_name: ${{ needs.get_version.outputs.tag }}
-          name: ${{ needs.get_version.outputs.tag }}
-          body: ${{ needs.get_version.outputs.notes }}
-          draft: false
-          prerelease: false
-          files: |
-            artifacts/*-wheel/**/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          bun-version: latest
 
+      - run: cd ../../../ && bun install
+
+      - name: Semantic Release
+        id: semantic_release
+        run: "bun semantic-release"
+      
   cleanup:
     if: failure() && inputs.release
     runs-on: ubuntu-latest

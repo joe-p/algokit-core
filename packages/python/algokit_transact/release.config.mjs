@@ -30,5 +30,11 @@ export default {
         setOutput("notes", context.nextRelease.notes);
       },
     },
+    [
+      "@semantic-release/github",
+      {
+        assets: ["artifacts/*-wheel/**/*"],
+      },
+    ],
   ],
 };
