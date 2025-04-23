@@ -17,8 +17,10 @@ on:
         required: true
 
 permissions:
-  contents: write
-  actions: write
+  contents: write # to make commits
+  actions: write # to upload artifacts
+  issues: write # to be able to comment on released issues
+  pull-requests: write # to be able to comment on released pull requests
 
 env:
   # Python >= 3.8 is needed to support manylinux_x_y tags (unless you want to manually update pip)
