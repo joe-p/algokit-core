@@ -12,6 +12,11 @@ on:
         type: boolean
         default: false
         description: "Whether to run release steps"
+    secrets:
+      BOT_ID:
+        required: true
+      BOT_SK:
+        required: true
 
 permissions:
   contents: write # to make commits
