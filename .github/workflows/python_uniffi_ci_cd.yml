@@ -12,9 +12,6 @@ on:
         type: boolean
         default: false
         description: "Whether to run release steps"
-    secrets:
-      GH_TOKEN:
-        required: true
 
 permissions:
   contents: write # to make commits
@@ -38,15 +35,11 @@ jobs:
       run:
         working-directory: ./packages/python/${{ inputs.crate }}/
     steps:
-      - name: Debug GH_TOKEN
-        run: |
-          if [ -z "$GITHUB_TOKEN" ]; then
-            echo "GITHUB_TOKEN is not set"
-          else
-            echo "GITHUB_TOKEN is set"
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      - uses: actions/create-github-app-token@v1
+        id: app_token
+        with:
+          app-id: ${{ secrets.BOT_ID }}
+          private-key: ${{ secrets.BOT_SK }}
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
         with:
@@ -55,7 +48,7 @@ jobs:
       - name: Semantic Release (dry-run)
         id: semantic_release
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
         run: "bun semantic-release --dry-run"
       - name: Update version in pyproject.toml
         if: steps.semantic_release.outputs.version != ''
@@ -63,7 +56,7 @@ jobs:
       - name: Commit version bump
         if: steps.semantic_release.outputs.version != ''
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -235,9 +228,13 @@ jobs:
     defaults:
       run:
         working-directory: ./packages/python/${{ inputs.crate }}/
-    env:
-      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
+      - uses: actions/create-github-app-token@v1
+        id: app_token
+        with:
+          app-id: ${{ secrets.BOT_ID }}
+          private-key: ${{ secrets.BOT_SK }}
+
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.ref }}
@@ -255,6 +252,8 @@ jobs:
 
       - name: Semantic Release
         id: semantic_release
+        env:
+          GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
         run: "bun semantic-release"
       
   cleanup:
