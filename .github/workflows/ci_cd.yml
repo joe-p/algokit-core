@@ -17,9 +17,16 @@ jobs:
     outputs:
       # The packages that use Uniffi bindings
       uniffi_packages: ${{ steps.set_uniffi_packages.outputs.uniffi_packages }}
+      app_token: ${{ steps.set_app_token.outputs.token }}
     steps:
       - id: set_uniffi_packages
         run: echo 'uniffi_packages=["algokit_transact"]' >> $GITHUB_OUTPUT
+      - uses: actions/create-github-app-token@v1
+        id: set_app_token
+        with:
+          app-id: ${{ secrets.BOT_ID }}
+          private-key: ${{ secrets.BOT_SK }}
+
 
   python_uniffi_ci_cd:
     needs: setup
@@ -31,4 +38,4 @@ jobs:
       crate: ${{ matrix.crate }}
       release: ${{ github.event_name == 'push' }}
     secrets:
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      GH_TOKEN: ${{ needs.setup.outputs.app_token }}
