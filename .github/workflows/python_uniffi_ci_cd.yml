@@ -37,8 +37,6 @@ jobs:
     defaults:
       run:
         working-directory: ./packages/python/${{ inputs.crate }}/
-    env:
-      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -47,12 +45,16 @@ jobs:
       - run: cd ../../../ && bun install
       - name: Semantic Release (dry-run)
         id: semantic_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: "bun semantic-release --dry-run"
       - name: Update version in pyproject.toml
         if: steps.semantic_release.outputs.version != ''
         run: sed -i 's/version = .*/version = "${{ steps.semantic_release.outputs.version }}"/' pyproject.toml
       - name: Commit version bump
         if: steps.semantic_release.outputs.version != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
