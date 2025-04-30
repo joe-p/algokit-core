@@ -47,6 +47,8 @@ jobs:
           app-id: ${{ secrets.BOT_ID }}
           private-key: ${{ secrets.BOT_SK }}
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
         if: inputs.release
       - uses: oven-sh/setup-bun@v2
         if: inputs.release
