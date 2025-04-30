@@ -31,6 +31,12 @@ jobs:
         shell: bash
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/create-github-app-token@v1
+        if: inputs.release
+        id: app_token
+        with:
+          app-id: ${{ secrets.BOT_ID }}
+          private-key: ${{ secrets.BOT_SK }}
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@master
         with:
@@ -45,4 +51,6 @@ jobs:
         run: cd packages/typescript/${{ inputs.CRATE }} && bun test
       - name: Release
         if: inputs.release
+        env:
+          GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
         run: bun release:${{ inputs.CRATE }}:ts
