@@ -23,7 +23,7 @@ jobs:
   typescript_wasm_ci_cd:
     concurrency: ${{ github.event_name == 'push' && format('cd-{0}', github.ref) || github.run_id }}
     needs: setup
-    uses: ./.github/workflows/typescript_ci.yml
+    uses: ./.github/workflows/typescript_wasm_ci_cd.yml
     strategy:
       matrix:
         crate: ${{ fromJSON(needs.setup.outputs.uniffi_packages) }}
