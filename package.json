@@ -9,7 +9,8 @@
     "build:transact:swift": "bun scripts/build algokit_transact swift",
     "build:transact:ts": "bun scripts/build algokit_transact typescript",
     "build:transact:all": "bun scripts/build algokit_transact all",
-    "release:transact:py": "cd packages/python/algokit_transact && bun semantic-release"
+    "release:algokit_transact:py": "cd packages/python/algokit_transact && bun semantic-release",
+    "release:algokit_transact:ts": "cd packages/typescript/algokit_transact && bun semantic-release"
   },
   "dependencies": {
     "@actions/core": "^1.11.1",
