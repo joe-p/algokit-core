@@ -12,7 +12,7 @@ module.exports = {
     const { language, package_name } = opts;
     const assets = opts.assets || [];
     return {
-      branches: ["main", { name: "wip/ts_ci_cd", prerelease: "alpha" }],
+      branches: [{ name: "wip/ts_ci_cd", prerelease: "alpha" }],
       repositoryUrl: "https://github.com/joe-p/algokit-core",
       tagFormat: `${language}/${package_name}` + "@${version}",
       plugins: [
