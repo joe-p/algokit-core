@@ -2,6 +2,8 @@
 //!
 //! This module provides functionality for creating and managing asset transfer transactions.
 
+extern crate alloc;
+
 use crate::address::Address;
 use crate::transactions::common::TransactionHeader;
 use crate::utils::{is_zero, is_zero_addr, is_zero_addr_opt};
@@ -19,7 +21,8 @@ use serde_with::{serde_as, skip_serializing_none};
 #[builder(
     name = "AssetTransferTransactionBuilder",
     setter(strip_option),
-    build_fn(name = "build_fields")
+    build_fn(name = "build_fields"),
+    no_std
 )]
 pub struct AssetTransferTransactionFields {
     /// Common transaction header fields.

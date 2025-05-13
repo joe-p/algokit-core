@@ -3,16 +3,18 @@
 //! This module provides functionality for working with Algorand addresses,
 //! including creation, validation, encoding, and decoding. Algorand addresses
 //! are base32-encoded strings that represent a public key with a checksum.
+extern crate alloc;
 
 use crate::constants::{
     Byte32, ALGORAND_ADDRESS_LENGTH, ALGORAND_CHECKSUM_BYTE_LENGTH, ALGORAND_PUBLIC_KEY_BYTE_LENGTH,
 };
 use crate::error::AlgoKitTransactError;
 use crate::utils::pub_key_to_checksum;
+use alloc::str::FromStr;
+use alloc::string::ToString;
+use core::fmt::{Display, Formatter, Result as FmtResult};
 use serde::{Deserialize, Serialize};
 use serde_with::{serde_as, Bytes};
-use std::fmt::{Display, Formatter, Result as FmtResult};
-use std::str::FromStr;
 
 /// Represents an address.
 ///

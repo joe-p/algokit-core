@@ -3,6 +3,11 @@
 //! This module provides the fundamental transaction types and headers used
 //! across different transaction types.
 
+extern crate alloc;
+
+use alloc::string::String;
+use alloc::vec::Vec;
+
 use crate::address::Address;
 use crate::constants::Byte32;
 use crate::utils::{
@@ -20,7 +25,7 @@ use serde_with::{serde_as, skip_serializing_none, Bytes};
 #[serde_as]
 #[skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Builder)]
-#[builder(setter(strip_option))]
+#[builder(setter(strip_option), no_std)]
 pub struct TransactionHeader {
     /// The account that authorized the transaction.
     ///

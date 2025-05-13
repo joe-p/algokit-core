@@ -4,6 +4,9 @@
 //! transaction processing, including encoding/decoding errors, validation errors,
 //! and other transaction-related failures.
 
+extern crate alloc;
+
+use alloc::string::String;
 use thiserror::Error;
 
 /// Represents errors that can occur during Algorand transaction operations.

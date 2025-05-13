@@ -65,8 +65,8 @@ export async function buildTypescript(crate: string) {
   });
 
   await build(crate, "wasm2js", cwd);
-  await build(crate, "esm", cwd);
   await build(crate, "cjs", cwd);
+  await build(crate, "esm", cwd);
 
   fs.copyFileSync(`packages/typescript/${crate}/pkg/${crate}_ffi.d.ts`, `packages/typescript/${crate}/dist/index.d.ts`);
 }
