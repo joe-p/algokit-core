@@ -2,6 +2,10 @@
 //!
 //! This module provides traits for standardized MessagePack encoding/decoding of
 //! Algorand data structures and for calculating transaction identifiers.
+extern crate alloc;
+
+use alloc::string::{String, ToString};
+use alloc::vec::Vec;
 
 use crate::constants::HASH_BYTES_LENGTH;
 use crate::error::AlgoKitTransactError;
