@@ -1,10 +1,15 @@
-#![cfg_attr(not(debug_assertions), no_std)]
+#![cfg_attr(target_arch = "wasm32", no_std)]
 
-extern crate wee_alloc;
+extern crate alloc;
 
-// Use `wee_alloc` as the global allocator.
-#[global_allocator]
-static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
+// For wasm targets, use dlmalloc
+#[cfg(target_arch = "wasm32")]
+mod allocator {
+    use dlmalloc::GlobalDlmalloc;
+
+    #[global_allocator]
+    static GLOBAL: GlobalDlmalloc = GlobalDlmalloc;
+}
 
 mod address;
 mod constants;
