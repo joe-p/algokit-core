@@ -1,3 +1,16 @@
+#![cfg_attr(target_arch = "wasm32", no_std)]
+
+extern crate alloc;
+
+// For wasm targets, use dlmalloc
+#[cfg(target_arch = "wasm32")]
+mod allocator {
+    use dlmalloc::GlobalDlmalloc;
+
+    #[global_allocator]
+    static GLOBAL: GlobalDlmalloc = GlobalDlmalloc;
+}
+
 mod address;
 mod constants;
 mod error;
@@ -22,5 +35,5 @@ pub use transactions::{
 #[cfg(test)]
 mod tests;
 
-#[cfg(feature = "test_utils")]
+#[cfg(test)]
 pub mod test_utils;

@@ -4,6 +4,8 @@
 //! This module includes support for various transaction types, along with the ability to sign,
 //! serialize, and deserialize them.
 
+extern crate alloc;
+
 mod asset_transfer;
 mod common;
 mod payment;
@@ -17,9 +19,11 @@ pub use payment::{PaymentTransactionBuilder, PaymentTransactionFields};
 use crate::constants::{ALGORAND_SIGNATURE_ENCODING_INCR, HASH_BYTES_LENGTH};
 use crate::error::AlgoKitTransactError;
 use crate::traits::{AlgorandMsgpack, EstimateTransactionSize, TransactionId};
+use alloc::format;
+use alloc::vec::Vec;
+use core::any::Any;
 use serde::{Deserialize, Serialize};
 use serde_with::{serde_as, Bytes};
-use std::any::Any;
 
 /// Enumeration of all transaction types.
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]

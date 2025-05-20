@@ -37,6 +37,7 @@ dependencies = [
  "base64",
  "convert_case",
  "derive_builder",
+ "dlmalloc",
  "ed25519-dalek",
  "pretty_assertions",
  "rmp-serde",
@@ -737,6 +738,17 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
+]
+
+[[package]]
+name = "dlmalloc"
+version = "0.2.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8cff88b751e7a276c4ab0e222c3f355190adc6dde9ce39c851db39da34990df7"
+dependencies = [
+ "cfg-if",
+ "libc",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]

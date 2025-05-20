@@ -3,6 +3,8 @@
 //! This module provides functionality for creating and managing payment transactions,
 //! which are used to transfer ALGO between accounts.
 
+extern crate alloc;
+
 use crate::address::Address;
 use crate::transactions::common::TransactionHeader;
 use crate::utils::{is_zero, is_zero_addr, is_zero_addr_opt};
@@ -17,7 +19,8 @@ use serde_with::{serde_as, skip_serializing_none};
 #[builder(
     name = "PaymentTransactionBuilder",
     setter(strip_option),
-    build_fn(name = "build_fields")
+    build_fn(name = "build_fields"),
+    no_std
 )]
 pub struct PaymentTransactionFields {
     /// Common transaction header fields.

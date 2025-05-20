@@ -1,9 +1,11 @@
 include!("src/lib.rs");
 
 fn main() {
+    #[cfg(test)]
     generate_test_data()
 }
 
+#[cfg(test)]
 fn generate_test_data() {
     use algokit_transact::test_utils;
     use serde::Serialize;
