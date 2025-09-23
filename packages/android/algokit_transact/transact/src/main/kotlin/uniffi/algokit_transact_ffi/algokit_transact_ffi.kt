@@ -17,8 +17,8 @@ package uniffi.algokit_transact_ffi
 // compile the Rust component. The easiest way to ensure this is to bundle the Kotlin
 // helpers directly inline like we're doing here.
 
-import android.location.Address
 import com.sun.jna.Callback
+import com.sun.jna.IntegerType
 import com.sun.jna.Library
 import com.sun.jna.Native
 import com.sun.jna.Pointer
@@ -3505,13 +3505,10 @@ fun `addressFromMultisigSignature`(`multisigSignature`: MultisigSignature): kotl
   )
 
 @Throws(AlgoKitTransactException::class)
-fun `addressFromPublicKey`(`publicKey`: kotlin.ByteArray): String =
+fun `addressFromPublicKey`(`publicKey`: kotlin.ByteArray): kotlin.String =
   FfiConverterString.lift(
     uniffiRustCallWithError(AlgoKitTransactException) { _status ->
-      UniffiLib.INSTANCE.uniffi_algokit_transact_ffi_fn_func_address_from_public_key(
-        FfiConverterByteArray.lower(`publicKey`),
-        _status,
-      )
+      UniffiLib.INSTANCE.uniffi_algokit_transact_ffi_fn_func_address_from_public_key(FfiConverterByteArray.lower(`publicKey`), _status)
     },
   )
 
@@ -3622,10 +3619,7 @@ fun `decodeSignedTransactions`(`encodedSignedTransactions`: List<kotlin.ByteArra
 fun `decodeTransaction`(`encodedTx`: kotlin.ByteArray): Transaction =
   FfiConverterTypeTransaction.lift(
     uniffiRustCallWithError(AlgoKitTransactException) { _status ->
-      UniffiLib.INSTANCE.uniffi_algokit_transact_ffi_fn_func_decode_transaction(
-        FfiConverterByteArray.lower(`encodedTx`),
-        _status,
-      )
+      UniffiLib.INSTANCE.uniffi_algokit_transact_ffi_fn_func_decode_transaction(FfiConverterByteArray.lower(`encodedTx`), _status)
     },
   )
 
@@ -3642,10 +3636,7 @@ fun `decodeTransaction`(`encodedTx`: kotlin.ByteArray): Transaction =
 fun `decodeTransactions`(`encodedTxs`: List<kotlin.ByteArray>): List<Transaction> =
   FfiConverterSequenceTypeTransaction.lift(
     uniffiRustCallWithError(AlgoKitTransactException) { _status ->
-      UniffiLib.INSTANCE.uniffi_algokit_transact_ffi_fn_func_decode_transactions(
-        FfiConverterSequenceByteArray.lower(`encodedTxs`),
-        _status,
-      )
+      UniffiLib.INSTANCE.uniffi_algokit_transact_ffi_fn_func_decode_transactions(FfiConverterSequenceByteArray.lower(`encodedTxs`), _status)
     },
   )
 
@@ -3700,10 +3691,7 @@ fun `encodeSignedTransactions`(`signedTransactions`: List<SignedTransaction>): L
 fun `encodeTransaction`(`transaction`: Transaction): kotlin.ByteArray =
   FfiConverterByteArray.lift(
     uniffiRustCallWithError(AlgoKitTransactException) { _status ->
-      UniffiLib.INSTANCE.uniffi_algokit_transact_ffi_fn_func_encode_transaction(
-        FfiConverterTypeTransaction.lower(`transaction`),
-        _status,
-      )
+      UniffiLib.INSTANCE.uniffi_algokit_transact_ffi_fn_func_encode_transaction(FfiConverterTypeTransaction.lower(`transaction`), _status)
     },
   )
 
@@ -3789,10 +3777,7 @@ fun `getEncodedTransactionType`(`encodedTransaction`: kotlin.ByteArray): Transac
 fun `getTransactionId`(`transaction`: Transaction): kotlin.String =
   FfiConverterString.lift(
     uniffiRustCallWithError(AlgoKitTransactException) { _status ->
-      UniffiLib.INSTANCE.uniffi_algokit_transact_ffi_fn_func_get_transaction_id(
-        FfiConverterTypeTransaction.lower(`transaction`),
-        _status,
-      )
+      UniffiLib.INSTANCE.uniffi_algokit_transact_ffi_fn_func_get_transaction_id(FfiConverterTypeTransaction.lower(`transaction`), _status)
     },
   )
 
@@ -3891,9 +3876,6 @@ fun `participantsFromMultisigSignature`(`multisigSignature`: MultisigSignature):
 fun `publicKeyFromAddress`(`address`: kotlin.String): kotlin.ByteArray =
   FfiConverterByteArray.lift(
     uniffiRustCallWithError(AlgoKitTransactException) { _status ->
-      UniffiLib.INSTANCE.uniffi_algokit_transact_ffi_fn_func_public_key_from_address(
-        FfiConverterString.lower(`address`),
-        _status,
-      )
+      UniffiLib.INSTANCE.uniffi_algokit_transact_ffi_fn_func_public_key_from_address(FfiConverterString.lower(`address`), _status)
     },
   )
